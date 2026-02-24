@@ -2353,8 +2353,9 @@ void UpdateModelAnimation(Model model, ModelAnimation anim, int frame)
                 // NOTE: We use meshes.baseNormals (default normal) to calculate meshes.normals (animated normals)
                 if (mesh.normals != NULL)
                 {
+                    // without translation, only rotation.
                     animNormal = (Vector3){ mesh.normals[vCounter], mesh.normals[vCounter + 1], mesh.normals[vCounter + 2] };
-                    animNormal = Vector3Transform(animNormal,model.meshes[m].boneMatrices[boneId]);
+                    animNormal = Vector3Transform(animNormal,MatrixTranspose(MatrixInvert(model.meshes[m].boneMatrices[boneId])));
                     mesh.animNormals[vCounter] += animNormal.x*boneWeight;
                     mesh.animNormals[vCounter + 1] += animNormal.y*boneWeight;
                     mesh.animNormals[vCounter + 2] += animNormal.z*boneWeight;
